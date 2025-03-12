@@ -1,5 +1,8 @@
 <template>
-  <div class="app-layout" :class="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <div class="app-layout" :class="{ 
+    'sidebar-collapsed': isSidebarCollapsed,
+    'dark-theme': settingsStore.isDarkMode 
+  }">
     <!-- 侧边栏 -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -67,9 +70,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 const router = useRouter();
 const isSidebarCollapsed = ref(false);
+const settingsStore = useSettingsStore();
 
 /**
  * 组件挂载时初始化

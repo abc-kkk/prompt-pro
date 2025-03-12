@@ -154,19 +154,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { usePromptStore } from '@/stores/promptStore';
 import { useCategoryStore } from '@/stores/categoryStore';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 // 获取存储
 const promptStore = usePromptStore();
 const categoryStore = useCategoryStore();
+const settingsStore = useSettingsStore();
 
 // 应用版本
 const appVersion = ref('1.0.0');
 
 // 主题设置
-const theme = ref('system');
+const theme = computed({
+  get: () => settingsStore.theme,
+  set: (value) => settingsStore.setTheme(value)
+});
 
 // 对话框状态
 const showClearConfirm = ref(false);
@@ -181,33 +186,14 @@ const errorMessage = ref('');
  * 组件挂载时初始化
  */
 onMounted(() => {
-  // 获取当前主题设置
-  const savedTheme = localStorage.getItem('theme') || 'system';
-  theme.value = savedTheme;
-  applyTheme(savedTheme);
+  // 初始化不再需要处理主题，因为已由settingsStore处理
 });
 
 /**
  * 切换主题
  */
 function changeTheme() {
-  localStorage.setItem('theme', theme.value);
-  applyTheme(theme.value);
-}
-
-/**
- * 应用主题到文档
- * @param {string} themeName - 主题名称
- */
-function applyTheme(themeName) {
-  if (themeName === 'system') {
-    // 跟随系统
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  } else {
-    // 手动设置
-    document.documentElement.setAttribute('data-theme', themeName);
-  }
+  settingsStore.setTheme(theme.value);
 }
 
 /**
