@@ -130,7 +130,7 @@
  * 编辑/创建提示词视图
  * 用于创建新的提示词或编辑现有提示词
  */
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePromptStore } from '../stores/promptStore';
 import { useCategoryStore } from '../stores/categoryStore';
@@ -215,30 +215,45 @@ const removeExample = (index) => {
   formData.examples.splice(index, 1);
 };
 
-const savePrompt = () => {
-  if (isEditMode.value) {
-    // 更新现有提示词
-    promptStore.updatePrompt({
-      id: parseInt(route.params.id),
-      title: formData.title,
-      content: formData.content,
-      categoryId: formData.categoryId,
-      tags: formData.tags,
-      examples: formData.examples
-    });
-  } else {
-    // 添加新提示词
-    promptStore.addPrompt({
-      title: formData.title,
-      content: formData.content,
-      categoryId: formData.categoryId,
-      tags: formData.tags,
-      examples: formData.examples
-    });
+const savePrompt = async () => {
+  try {
+    if (isEditMode.value) {
+      // 更新现有提示词
+      promptStore.updatePrompt({
+        id: parseInt(route.params.id),
+        title: formData.title,
+        content: formData.content,
+        categoryId: formData.categoryId,
+        tags: formData.tags,
+        examples: formData.examples
+      });
+    } else {
+      // 添加新提示词
+      promptStore.addPrompt({
+        title: formData.title,
+        content: formData.content,
+        categoryId: formData.categoryId,
+        tags: formData.tags,
+        examples: formData.examples
+      });
+    }
+    
+    // 使用nextTick确保在DOM更新后执行导航
+    await nextTick();
+    // 返回首页，添加replace: true确保用户不能通过浏览器返回按钮返回到编辑页面
+    router.push({ name: 'home', replace: true });
+    
+    // 以防上面的路由导航失败，添加一个超时后的备份导航
+    setTimeout(() => {
+      if (route.name === 'create-prompt' || route.name === 'edit-prompt') {
+        window.location.href = '/';
+      }
+    }, 100);
+  } catch (error) {
+    console.error('保存提示词时出错:', error);
+    // 即使出错也尝试导航到首页
+    router.push({ name: 'home' });
   }
-  
-  // 返回首页
-  router.push({ name: 'home' });
 };
 
 const goBack = () => {
