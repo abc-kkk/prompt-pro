@@ -1,0 +1,142 @@
+/**
+ * 全局变量和混合
+ * 这个文件被全局导入，不要包含任何实际样式
+ */
+
+// 颜色变量
+:root {
+  // 主题色
+  --color-primary: #3498db;
+  --color-primary-dark: #2980b9;
+  --color-primary-light: #5dade2;
+  --color-success: #2ecc71;
+  --color-success-bg: rgba(46, 204, 113, 0.1);
+  --color-warning: #f39c12;
+  --color-warning-bg: rgba(243, 156, 18, 0.1);
+  --color-danger: #e74c3c;
+  --color-danger-dark: #c0392b;
+  --color-danger-bg: rgba(231, 76, 60, 0.1);
+  --color-favorite: #e84393;
+  
+  // 背景颜色
+  --color-background: #ffffff;
+  --color-background-soft: #f8f9fa;
+  --color-background-mute: #f1f3f5;
+  --color-background-secondary: #f8f9fa;
+  --color-background-tertiary: #f1f3f5;
+  
+  // 文本颜色
+  --color-text: #333333;
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-tertiary: #adb5bd;
+  
+  // 边框颜色
+  --color-border: #dee2e6;
+  --color-border-light: #e9ecef;
+  --color-border-soft: #e9ecef;
+  
+  // 过渡效果
+  --transition-fast: 0.15s;
+  --transition-normal: 0.25s;
+  --transition-slow: 0.4s;
+  
+  // 阴影
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  // 圆角
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  // 间距
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  
+  // 字体
+  --font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  
+  // 字体大小
+  --font-size-xs: 0.75rem;   // 12px
+  --font-size-sm: 0.875rem;  // 14px
+  --font-size-base: 1rem;    // 16px
+  --font-size-lg: 1.125rem;  // 18px
+  --font-size-xl: 1.25rem;   // 20px
+  --font-size-2xl: 1.5rem;   // 24px
+  --font-size-3xl: 1.875rem; // 30px
+  --font-size-4xl: 2.25rem;  // 36px
+  --font-size-5xl: 3rem;     // 48px
+  
+  // 布局
+  --header-height: 64px;
+  --sidebar-width: 250px;
+  
+  // 容器宽度
+  --container-max-width: 1440px;
+}
+
+// 深色主题变量 (仅变量，不包含选择器)
+$dark-theme-vars: (
+  --color-background: #1a1a1a,
+  --color-background-soft: #2a2a2a,
+  --color-background-mute: #333333,
+  --color-background-secondary: #2a2a2a,
+  --color-background-tertiary: #333333,
+  
+  --color-text: #f1f3f5,
+  --color-text-primary: #f8f9fa,
+  --color-text-secondary: #adb5bd,
+  --color-text-tertiary: #6c757d,
+  
+  --color-border: #444444,
+  --color-border-light: #333333,
+  --color-border-soft: #333333,
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3),
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3),
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3)
+);
+
+// 断点混合
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: 1200px) {
+    @content;
+  }
+}
+
+// 工具混合
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} 
